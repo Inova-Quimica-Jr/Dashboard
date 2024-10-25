@@ -6,7 +6,7 @@ import json
 import matplotlib.pyplot as plt
 
 # Configuração da página do Streamlit
-st.set_page_config(page_title="Dashboard Pipefy", layout="wide")
+st.set_page_config(page_icon= 'Icon.png',page_title="Dashboard Pipefy", layout="wide")
 
 # Titulo da página
 st.markdown(
