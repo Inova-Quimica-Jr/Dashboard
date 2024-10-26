@@ -245,8 +245,10 @@ def gerar_grafico_barras(data, x_col, y_col, title='', x_label='', y_label='Pont
     ax.bar(data[x_col].dropna().astype(str), data[y_col].dropna(), color=color)
 
     # Definir fundo transparente
-    fig.patch.set_alpha(0)  # Fundo da figura transparente
+    # Definir fundo transparente
+    fig.patch.set_alpha(0)    # Fundo da figura transparente
     ax.set_facecolor('none')  # Fundo do gráfico transparente
+    ax.grid(False)            # Fundo sem grades
 
     # Adicionar título e rótulos com texto branco e tamanhos de fonte ajustáveis
     ax.set_title(title, color='white', fontsize=title_fontsize)
