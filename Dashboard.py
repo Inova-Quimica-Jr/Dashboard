@@ -11,7 +11,7 @@ st.set_page_config(page_icon= 'Icon.jpg',page_title="Inova Quimica Jr", layout="
 # Titulo da página
 st.markdown(
     """
-    <h1 style='text-align: center; color: #FFFFFF;'>Dashboard do Marketing</h1>
+    <h1 style='text-align: center; color: #FFFFFF;'>Lobby da Inova Química Jr</h1>
     """,
     unsafe_allow_html=True
 )
