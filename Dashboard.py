@@ -295,7 +295,7 @@ with col3:
         st.write('Em construção')
 
     elif Visualização == 'Gameficação':
-        gerar_grafico_barras(dados_game,'Nomes', 'Pontuação Individual', '	Pontuação Individual', rotation=90 )
+        gerar_grafico_barras(dados_game,'Nomes', 'Pontuação Individual', 'Pontuação Individual', rotation=90 )
 
     elif Visualização == 'Projetos em Andamento':
         st.write('Em construção')
