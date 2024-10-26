@@ -232,14 +232,27 @@ def gerar_grafico_distribuicao(df, coluna, titulo=''):
     st.pyplot(fig)
 
 with col1:
-    gerar_grafico_distribuicao(df_vendas, 'Tipo de Serviço', 'Distribuição de Tipos de Serviço')
+    Opções = ['Vendas', 'Gameficação', 'Projetos em Andamento']
+    Visualização = st.selectbox('Escolha sobre o que deseja ver', Opções
+    )
+    if Visualização == 'Vendas':
+        Projetos = st.selectbox('Veja por seção de projetos', df_vendas['Tipo de Serviço']
+                        .str.split(',', expand=True)
+                        .stack()
+                        .str.replace(r'[\[\]"]', '', regex=True)
+                        .str.strip()
+                        .value_counts()
+                        .index
+                        .tolist())
+        df_filtrado = df_vendas[df_vendas['Tipo de Serviço'].str.contains(Projetos, na=False, regex=False)]
+        st.table(df_filtrado[['Title', 'Valor fechado']])
+
 with col2: 
-    Teste = st.selectbox('Teste',df_vendas['Tipo de Serviço']
-                    .str.split(',', expand=True)
-                    .stack()
-                    .str.replace(r'[\[\]"]', '', regex=True)
-                    .str.strip()
-                    .value_counts()
-                    .index)
+    if Visualização == 'Vendas':
+        gerar_grafico_distribuicao(df_vendas, 'Tipo de Serviço', 'Distribuição de Tipos de Serviço')
+    elif Visualização == 'Gameficação':
+        st.write('Em construção')
+    elif Visualização == 'Projetos em Andamento':
+        st.write('Em construção')
 with col3:
     st.write('Em construção')
