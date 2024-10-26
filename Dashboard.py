@@ -22,6 +22,12 @@ col1, col2, col3 = st.columns([1, 1, 1])
 # URL base da API do Pipefy
 url = "https://api.pipefy.com/graphql"
 
+# URL base do Excel da Gameficação
+url_game = 'https://drive.google.com/uc?id=1szuXLsXhHZPELuTAo5ClL8Ez2fOn422R'
+dados_game = pd.read_excel(url_game, header=4)
+dados_game.rename(columns={'Total': 'Pontuação Departamentos', 'Total.1': 'Pontuação Individual'}, inplace=True)
+dados_game.drop(['Unnamed: 0', 'Unnamed: 3','Unnamed: 4' ], axis=1, inplace=True)
+
 # Cabeçalhos com a chave de autenticação
 headers = {
     "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJQaXBlZnkiLCJpYXQiOjE3MjUyOTIyNDgsImp0aSI6ImM0OTNlYjllLTc4ZTUtNGYxYy05MGQ0LTI3NDNkNGNhYzRkZiIsInN1YiI6NzYyNDU1LCJ1c2VyIjp7ImlkIjo3NjI0NTUsImVtYWlsIjoiaXFqckBpcS51c3AuYnIifX0.Kj8wdVuN7nlyQgaEuMXGnep8hkDovLlsrf8-AsD_c6pzZoeK2vUvtkn0Z1uk6ptsPOf6ZUszTdsswlIMkmLOgg",
@@ -231,6 +237,27 @@ def gerar_grafico_distribuicao(df, coluna, titulo=''):
     # Exibir o gráfico
     st.pyplot(fig)
 
+def gerar_grafico_barras(data, x_col, y_col, title='', x_label='', y_label='Pontos', color='skyblue',title_fontsize=16, label_fontsize=14, rotation=0):
+
+    fig, ax = plt.subplots(figsize=(10, 6))  # Definir o tamanho da figura
+
+    # Criar o gráfico de barras
+    ax.bar(data[x_col].dropna().astype(str), data[y_col].dropna(), color=color)
+
+    # Definir fundo transparente
+    fig.patch.set_alpha(0)  # Fundo da figura transparente
+    ax.set_facecolor('none')  # Fundo do gráfico transparente
+
+    # Adicionar título e rótulos com texto branco e tamanhos de fonte ajustáveis
+    ax.set_title(title, color='white', fontsize=title_fontsize)
+    ax.set_xlabel(x_label, color='white', fontsize=label_fontsize)
+    ax.set_ylabel(y_label, color='white', fontsize=label_fontsize)
+    ax.tick_params(axis='x', colors='white', labelsize=label_fontsize)  # Cor e tamanho dos rótulos do eixo X
+    ax.tick_params(axis='y', colors='white', labelsize=label_fontsize)  # Cor e tamanho dos rótulos do eixo Y
+    plt.xticks(rotation=rotation, color='white', fontsize=label_fontsize)
+    # Exibir o gráfico
+    st.pyplot(fig)
+
 with col1:
     Opções = ['Vendas', 'Gameficação', 'Projetos em Andamento']
     Visualização = st.selectbox('Escolha sobre o que deseja ver', Opções
@@ -253,12 +280,23 @@ with col2:
 
 
     elif Visualização == 'Gameficação':
-        st.write('Em construção')
+       gerar_grafico_barras(dados_game,'Departamentos', 'Pontuação Departamentos', 'Pontuação Departamentos' )
+        
 
 
     elif Visualização == 'Projetos em Andamento':
         df_filtrado = df_projetos[df_projetos['Phase'].str.contains('Execução', na=False, regex=False)]
         st.table(df_filtrado[['Title', 'Descrição']])
         
+
+
 with col3:
-    st.write('Em construção')
+    if Visualização == 'Vendas':
+        st.write('Em construção')
+
+    elif Visualização == 'Gameficação':
+        gerar_grafico_barras(dados_game,'Nomes', 'Pontuação Individual', '	Pontuação Individual', rotation=90 )
+
+    elif Visualização == 'Projetos em Andamento':
+        st.write('Em construção')
+
