@@ -250,9 +250,15 @@ with col1:
 with col2: 
     if Visualização == 'Vendas':
         gerar_grafico_distribuicao(df_vendas, 'Tipo de Serviço', 'Distribuição de Tipos de Serviço')
+
+
     elif Visualização == 'Gameficação':
         st.write('Em construção')
+
+
     elif Visualização == 'Projetos em Andamento':
-        st.write('Em construção')
+        df_filtrado = df_projetos[df_projetos['Phase'].str.contains('Execução', na=False, regex=False)]
+        st.table(df_filtrado[['Title', 'Descrição']])
+        
 with col3:
     st.write('Em construção')
