@@ -341,7 +341,7 @@ with col2:
 
     elif Visualização == 'Projetos em Andamento':
         df_filtrado = df_projetos[df_projetos['Phase'].str.contains('Execução', na=False, regex=False)]
-        st.table(df_filtrado[['Title', 'Descrição']], hide_index=True)
+        st.dataframe(df_filtrado[['Title', 'Descrição']], hide_index=True)
 
 
 with col3:
